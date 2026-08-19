@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
 
-// Configurable environment variables for MySQL
-const DB_HOST = process.env.DB_HOST || 'localhost';
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASSWORD = process.env.DB_PASSWORD || '';
-const DB_NAME = process.env.DB_NAME || 'mathur_giri_math_db';
-const DB_PORT = process.env.DB_PORT || 3306;
+// Configurable environment variables for MySQL (Supports all cloud providers)
+const DB_HOST = process.env.MYSQLHOST || process.env.DB_HOST || 'localhost';
+const DB_USER = process.env.MYSQLUSER || process.env.DB_USER || 'root';
+const DB_PASSWORD = process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '';
+const DB_NAME = process.env.MYSQLDATABASE || process.env.DB_NAME || 'mathur_giri_math_db';
+const DB_PORT = process.env.MYSQLPORT || process.env.DB_PORT || 3306;
 
 let pool = null;
 let isMySqlConnected = false;

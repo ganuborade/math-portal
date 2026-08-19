@@ -11,7 +11,8 @@ services:
       - key: NODE_ENV
         value: production
       - key: ADMIN_SECRET_KEY
-        generateValue: true
+        value: GOTEGAON_MATH_2026
       - key: JWT_SECRET
-        generateValue: true
+        value: mathur_giri_gotegaon_secret_key_2026
+
 
