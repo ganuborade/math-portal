@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: mathur-giri-math-portal
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+
