@@ -148,7 +148,8 @@ export async function initDbConnection() {
         idleTimeout: 60000,
         queueLimit: 0,
         enableKeepAlive: true,
-        keepAliveInitialDelay: 10000
+        keepAliveInitialDelay: 10000,
+        ssl: process.env.DB_SSL === 'false' ? undefined : { rejectUnauthorized: false }
       });
     } else {
       pool = mysql.createPool({
