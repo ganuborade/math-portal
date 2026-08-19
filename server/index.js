@@ -461,7 +461,7 @@ app.delete('/api/announcements/:id', authenticateToken, requirePresidentRole, as
   const { id } = req.params;
   try {
     await query('DELETE FROM announcements WHERE id = ?', [id]);
-  } catch (e) {}
+  } catch (e) { }
   mockDb.announcements = (mockDb.announcements || []).filter(item => String(item.id) !== String(id));
   apiCache.invalidate('/api/announcements');
   res.json({ message: 'जाहीर सूचना डिलीट केली.' });
@@ -494,7 +494,7 @@ app.delete('/api/events/:id', authenticateToken, requirePresidentRole, async (re
   const { id } = req.params;
   try {
     await query('DELETE FROM events_and_banners WHERE id = ?', [id]);
-  } catch (e) {}
+  } catch (e) { }
   mockDb.events_and_banners = mockDb.events_and_banners.filter(item => String(item.id) !== String(id));
   apiCache.invalidate('/api/events');
   res.json({ message: 'कार्यक्रम यशस्वीरित्या डिलीट केला (Event deleted successfully).' });
@@ -505,7 +505,7 @@ app.delete('/api/finances/:id', authenticateToken, requirePresidentRole, async (
   const { id } = req.params;
   try {
     await query('DELETE FROM financial_records WHERE id = ?', [id]);
-  } catch (e) {}
+  } catch (e) { }
   mockDb.financial_records = mockDb.financial_records.filter(item => String(item.id) !== String(id));
   apiCache.invalidate('/api/finances');
   res.json({ message: 'हिशोब नोंद डिलीट केली (Financial entry deleted successfully).' });
@@ -516,7 +516,7 @@ app.delete('/api/gallery/:id', authenticateToken, requirePresidentRole, async (r
   const { id } = req.params;
   try {
     await query('DELETE FROM gallery_photos WHERE id = ?', [id]);
-  } catch (e) {}
+  } catch (e) { }
   mockDb.gallery_photos = mockDb.gallery_photos.filter(item => String(item.id) !== String(id));
   apiCache.invalidate('/api/gallery');
   res.json({ message: 'फोटो गॅलरीतून डिलीट केला (Photo deleted successfully).' });
@@ -527,7 +527,7 @@ app.delete('/api/committee/:id', authenticateToken, requirePresidentRole, async 
   const { id } = req.params;
   try {
     await query('DELETE FROM committee_members WHERE id = ?', [id]);
-  } catch (e) {}
+  } catch (e) { }
   mockDb.committee_members = mockDb.committee_members.filter(item => String(item.id) !== String(id));
   apiCache.invalidate('/api/committee');
   res.json({ message: 'समिती सदस्य डिलीट केला (Committee member deleted successfully).' });
@@ -547,7 +547,7 @@ app.get('*', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Express server running on port ${PORT}`);
-  console.log(`📍 Mathur Giri Maharaj Math Sansthan API: http://localhost:${PORT}/api/status`);
+  console.log(`📍 Mathur Giri Maharaj Math Sansthan API: http://0.0.0.0:${PORT}/api/status`);
 });
