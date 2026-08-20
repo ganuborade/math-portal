@@ -18,7 +18,7 @@ export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
       <div className="bg-gradient-to-r from-amber-800 via-amber-600 to-amber-800 text-amber-50 text-xs py-1 px-4 text-center font-medium tracking-wide flex justify-between items-center px-6">
         <span className="hidden sm:inline opacity-90">🚩 जय श्री मथुरा गिरी महाराज ! जय विठ्ठल रुक्मिणी ! 🚩</span>
         <span className="mx-auto sm:mx-0">📍 गोटेगाव ग्रामस्थ संचलित | 100% लोकवर्गणी निर्मित भव्य मठ संस्थान</span>
-        <span className="hidden md:inline font-mono opacity-90">📞 अधिकृत संपर्क: +91 98230 11223</span>
+        <span className="hidden md:inline font-mono opacity-90">📞 अधिकृत संपर्क: +91 9096040485</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

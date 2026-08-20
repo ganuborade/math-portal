@@ -294,7 +294,7 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
             <div className="space-y-1 bg-amber-950/40 p-2.5 rounded-xl border border-amber-500/40">
               <label className="text-xs font-bold text-amber-300 flex items-center justify-between">
                 <span>गुप्त समिती की (Admin Secret Key)*</span>
-                <span className="text-[10px] text-amber-400 font-mono">डीफॉल्ट Key: GOTEGAON_MATH_2026</span>
+                <span className="text-[10px] text-amber-400 font-mono">डीफॉल्ट Key: 1234</span>
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-amber-400 absolute left-3 top-1/2 -translate-y-1/2" />

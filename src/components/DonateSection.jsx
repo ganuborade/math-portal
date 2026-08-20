@@ -10,16 +10,16 @@ export default function DonateSection() {
     fetch('/api/committee')
       .then((res) => res.json())
       .then((data) => setCommittee(data))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const bankDetails = {
-    accountName: 'Shri Mathur Giri Maharaj Math Sansthan Gotegaon',
+    accountName: 'Shri Mathur Giri Maharaj Math Sansthan',
     bankName: 'Maharastra Gramin Bank (MGB)',
-    accountNumber: '110210100000082',
-    ifscCode: 'MGBB0001002',
-    branch: 'Yusufwadgaon Branch',
-    upiId: 'yusufwadgaon@mgb'
+    accountNumber: '00000',
+    ifscCode: 'MAHG0004546',
+    branch: 'Ysuf wadgaon',
+    upiId: 'gotegaonmath123@ybl'
   };
 
   const copyToClipboard = (text, fieldName) => {
@@ -31,7 +31,7 @@ export default function DonateSection() {
   return (
     <section id="donate" className="py-20 px-4 sm:px-6 lg:px-8 relative bg-slate-950/90 border-t border-amber-500/10">
       <div className="max-w-7xl mx-auto space-y-12">
-        
+
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center space-x-2 text-amber-400 text-xs font-semibold uppercase tracking-wider bg-amber-950/50 px-3 py-1 rounded-full border border-amber-500/30">
@@ -48,7 +48,7 @@ export default function DonateSection() {
 
         {/* Bank Details & UPI QR Card */}
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          
+
           {/* Bank Account Info Card */}
           <div className="glass-panel-gold rounded-3xl p-6 sm:p-8 border border-amber-400/50 space-y-6">
             <div className="flex items-center space-x-3">
@@ -132,7 +132,7 @@ export default function DonateSection() {
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/30">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            
+
             <h3 className="font-heading text-2xl font-bold text-amber-200">
               पारदर्शक पावती व समितीशी संपर्क नियम
             </h3>
@@ -154,7 +154,7 @@ export default function DonateSection() {
 
             <div className="bg-amber-950/60 p-4 rounded-2xl border border-amber-500/30 text-xs text-amber-200 flex items-center space-x-2">
               <Phone className="w-5 h-5 text-amber-400 shrink-0" />
-              <span>कोणत्याही शंकेसाठी अथवा माहितीसाठी: +91 98230 11223 (अध्यक्ष: श्री गणेश बोराडे)</span>
+              <span>कोणत्याही शंकेसाठी अथवा माहितीसाठी: +91 9096040485 (अध्यक्ष: श्री .बोराडे)</span>
             </div>
           </div>
 

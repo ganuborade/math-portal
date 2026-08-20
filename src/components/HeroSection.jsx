@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, HeartHandshake, ArrowRight, Volume2, VolumeX, Shield, Users, Landmark, Flame } from 'lucide-react';
+import { Sparkles, HeartHandshake, ArrowRight, Volume2, VolumeX, Shield, Users, Landmark, Flame, MapPin } from 'lucide-react';
 
 export default function HeroSection() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -177,6 +177,16 @@ export default function HeroSection() {
             <Shield className="w-4 h-4 text-amber-400" />
             <span>ग्रामस्थ लोकवर्गणी हिशोब (Transparency)</span>
           </button>
+
+          <a
+            href="https://www.google.com/maps/place/Shri+Mthur+Giri+Maharaj+Sansthan+Gotegaon/@18.6325101,76.0856975,196m/data=!3m1!1e3!4m6!3m5!1s0x3bc56bb44c57f33b:0x7826f6f2dccf346a!8m2!3d18.6325012!4d76.0863546!16s%2Fg%2F11sw13f96x?entry=ttu&g_ep=EgoyMDI2MDgxNy4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 font-semibold text-sm px-7 py-3.5 rounded-xl border border-amber-400/50 flex items-center justify-center space-x-2 transition-all hover:scale-105"
+          >
+            <MapPin className="w-4 h-4 text-amber-400" />
+            <span>📍 मठाचे स्थान (Google Map)</span>
+          </a>
         </div>
 
         {/* Highlight Feature Badges */}
