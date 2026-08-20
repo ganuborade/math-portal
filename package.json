@@ -7,13 +7,12 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "vite",
-    "dev:all": "concurrently \"npm run server\" \"vite\"",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "concurrently \"npm run server\" \"vite\"",
+    "dev:frontend": "vite",
     "server": "node server/index.js",
-    "start": "node server/index.js",
-    "build:start": "npm run build && npm start"
+    "start": "concurrently \"npm run server\" \"vite\"",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

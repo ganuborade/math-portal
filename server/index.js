@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -12,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'mathur_giri_gotegaon_secret_key_2026';
 
 app.use(cors());
@@ -547,7 +548,7 @@ app.get('*', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`🚀 Express server running on port ${PORT}`);
-  console.log(`📍 Mathur Giri Maharaj Math Sansthan API: http://0.0.0.0:${PORT}/api/status`);
+  console.log(`📍 Mathur Giri Maharaj Math Sansthan API: http://localhost:${PORT}/api/status`);
 });
