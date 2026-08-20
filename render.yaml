@@ -1,1 +1,13 @@
-# Removed for local development testing
+services:
+  - type: web
+    name: mathur-giri-math-sansthan
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_SECRET_KEY
+        value: GOTEGAON_MATH_2026
+      - key: JWT_SECRET
+        generateValue: true

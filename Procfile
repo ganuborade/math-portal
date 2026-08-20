@@ -1,1 +1,1 @@
-# Removed for local development testing
+web: npm start
