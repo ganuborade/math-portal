@@ -154,7 +154,7 @@ export default function DonateSection() {
 
             <div className="bg-amber-950/60 p-4 rounded-2xl border border-amber-500/30 text-xs text-amber-200 flex items-center space-x-2">
               <Phone className="w-5 h-5 text-amber-400 shrink-0" />
-              <span>कोणत्याही शंकेसाठी अथवा माहितीसाठी: +91 0000000000 (अध्यक्ष: श्री .बोराडे)</span>
+              <span>कोणत्याही शंकेसाठी अथवा माहितीसाठी: +91 0000000000 (अध्यक्ष: बोराडे सर)</span>
             </div>
           </div>
 

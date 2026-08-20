@@ -143,7 +143,7 @@ export default function HeroSection() {
             <div className="text-left">
               <div className="text-xs text-amber-300/80 font-medium">नामस्मरण मंतर (Chanting)</div>
               <div className="text-sm font-bold text-amber-100 font-heading">
-                ॥ ॐ श्री मथुरा गिरी महाराजाय नमः ॥
+                ॥ राम कृष्ण हरी॥
               </div>
             </div>
           </div>

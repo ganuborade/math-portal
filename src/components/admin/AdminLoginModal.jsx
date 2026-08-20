@@ -251,7 +251,7 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                   <input
                     type="text"
                     required
-                    placeholder="+91 98230 11223"
+                    placeholder="+91 0000000000"
                     value={regForm.phone}
                     onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
                     className="w-full bg-slate-900/90 text-amber-100 text-xs pl-9 pr-4 py-2 rounded-xl border border-amber-500/30 focus:border-amber-400"

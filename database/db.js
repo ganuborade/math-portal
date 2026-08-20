@@ -14,7 +14,7 @@ let isMySqlConnected = false;
 // Mock database store for zero-downtime execution if MySQL is offline
 export const mockDb = {
   committee_members: [
-    { id: 1, name: 'Shri Borade Sir', role: 'President/Head', phone: '+91 98230 11223', email: 'head@mathurgiri.org', bio: 'Head Sansthan Leader & Gotegaon Elder' }
+    { id: 1, name: 'Borade Sir', role: 'President/Head', phone: '+91 0000000000', email: 'head@mathurgiri.org', bio: 'Head Sansthan Leader & Gotegaon Elder' }
   ],
   financial_records: [],
   events_and_banners: [],
