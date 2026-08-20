@@ -111,7 +111,7 @@ export default function PresidentCertificateModal({ record, onClose }) {
                 <span>डिजिटल स्वाक्षरीकृत</span>
               </div>
               <p className="font-heading font-bold text-amber-200 text-base pt-1">
-                अध्यक्ष Sample
+                अध्यक्ष बोराडे सर
               </p>
               <p className="text-[10px] font-semibold text-amber-300/90">
                 मठाधिपती - श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव

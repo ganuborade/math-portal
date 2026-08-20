@@ -22,7 +22,7 @@ CREATE TABLE `committee_members` (
 
 -- Seed 1 Initial President Committee Member (Default password: admin123hashed)
 INSERT INTO `committee_members` (`name`, `role`, `phone`, `email`, `password_hash`, `bio`) VALUES
-('Sample', 'President/Head', '+91 0000000000', 'head@mathurgiri.org', '$2a$10$wT.eKk7E7iVfN6c1a8L9U.vV7n9y0l8k7m6n5b4v3c2x1z', 'Head Sansthan Leader & Gotegaon Village Elder');
+('बोराडे सर', 'President/Head', '+91 9000000000', 'head@mathurgiri.org', '$2a$10$wT.eKk7E7iVfN6c1a8L9U.vV7n9y0l8k7m6n5b4v3c2x1z', 'Head Sansthan Leader & Gotegaon Village Elder');
 
 -- ------------------------------------------------------------------------------
 -- 2. FINANCIAL RECORDS TABLE

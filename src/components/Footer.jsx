@@ -75,7 +75,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2 pt-1">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>+91 0000000000 (अध्यक्ष: Sample)</span>
+                <span>+91 9000000000 (अध्यक्ष: बोराडे सर)</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />
