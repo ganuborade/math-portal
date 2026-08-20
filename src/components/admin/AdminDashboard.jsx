@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, PlusCircle, IndianRupee, Image as ImageIcon, ShieldCheck, CheckCircle2, AlertCircle, Trash2, Crown, Lock, Upload, Link, X, Award, Megaphone, Users, Target, TrendingUp, Printer } from 'lucide-react';
+import { Calendar, PlusCircle, IndianRupee, Image as ImageIcon, ShieldCheck, CheckCircle2, AlertCircle, Trash2, Crown, Lock, Upload, Link, X, Award, Megaphone, Users, Target, TrendingUp, Printer, FileText } from 'lucide-react';
 import PresidentCertificateModal from './PresidentCertificateModal';
+import DonationReceiptModal from '../DonationReceiptModal';
 
 function DeviceImagePicker({ label, value, onChange, required = false, placeholder = "https://images.unsplash.com/photo-..." }) {
   const [mode, setMode] = useState('device');
@@ -131,13 +132,8 @@ export default function AdminDashboard({ user, token, onRefreshData }) {
   const [activeTab, setActiveTab] = useState('events'); // events, finances, gallery
   const [statusMsg, setStatusMsg] = useState(null);
 
-  // Check if current logged-in user is President / Head
-  const isPresident = user?.role && (
-    user.role.toLowerCase().includes('president') ||
-    user.role.toLowerCase().includes('head') ||
-    user.role.includes('अध्यक्ष') ||
-    user.role.includes('प्रमुख')
-  );
+  // All authenticated committee members have full management & deletion capabilities
+  const isPresident = Boolean(user);
 
   // Existing Data Lists for Management & Deletion
   const [eventsList, setEventsList] = useState([]);
@@ -146,6 +142,7 @@ export default function AdminDashboard({ user, token, onRefreshData }) {
   const [announcementsList, setAnnouncementsList] = useState([]);
   const [committeeList, setCommitteeList] = useState([]);
   const [selectedCertificateRecord, setSelectedCertificateRecord] = useState(null);
+  const [selectedDonationReceiptRecord, setSelectedDonationReceiptRecord] = useState(null);
 
   // Form States
   const [announcementForm, setAnnouncementForm] = useState({ title: '', message: '', priority: 'high' });
@@ -838,13 +835,22 @@ export default function AdminDashboard({ user, token, onRefreshData }) {
 
                       <div className="flex items-center space-x-2 shrink-0 flex-wrap gap-2">
                         {item.type === 'collection' && (
-                          <button
-                            onClick={() => setSelectedCertificateRecord(item)}
-                            className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-1.5 transition-all shadow-md shadow-amber-950/40"
-                          >
-                            <Award className="w-4 h-4 text-amber-400" />
-                            <span>📜 अध्यक्षीय प्रमाणपत्र (Certificate)</span>
-                          </button>
+                          <>
+                            <button
+                              onClick={() => setSelectedDonationReceiptRecord(item)}
+                              className="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-1.5 transition-all shadow-md shadow-emerald-950/40"
+                            >
+                              <Printer className="w-4 h-4 text-emerald-400" />
+                              <span>🧾 देणगी पावती प्रिंट (Receipt)</span>
+                            </button>
+                            <button
+                              onClick={() => setSelectedCertificateRecord(item)}
+                              className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-1.5 transition-all shadow-md shadow-amber-950/40"
+                            >
+                              <Award className="w-4 h-4 text-amber-400" />
+                              <span>📜 अध्यक्षीय प्रमाणपत्र (Certificate)</span>
+                            </button>
+                          </>
                         )}
 
                         {isPresident ? (
@@ -1151,6 +1157,14 @@ export default function AdminDashboard({ user, token, onRefreshData }) {
         <PresidentCertificateModal
           record={selectedCertificateRecord}
           onClose={() => setSelectedCertificateRecord(null)}
+        />
+      )}
+
+      {/* Official Math Donation Receipt Modal */}
+      {selectedDonationReceiptRecord && (
+        <DonationReceiptModal
+          record={selectedDonationReceiptRecord}
+          onClose={() => setSelectedDonationReceiptRecord(null)}
         />
       )}
     </section>

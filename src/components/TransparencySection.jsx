@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { IndianRupee, ShieldCheck, TrendingUp, TrendingDown, Wallet, FileText, CheckCircle2, Search } from 'lucide-react';
+import { IndianRupee, ShieldCheck, TrendingUp, TrendingDown, Wallet, FileText, CheckCircle2, Search, Printer } from 'lucide-react';
+import DonationReceiptModal from './DonationReceiptModal';
 
 export default function TransparencySection() {
   const [financeData, setFinanceData] = useState({
@@ -9,6 +10,7 @@ export default function TransparencySection() {
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('all'); // all, collection, expense
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedReceiptRecord, setSelectedReceiptRecord] = useState(null);
 
   useEffect(() => {
     fetch('/api/finances')
@@ -179,6 +181,7 @@ export default function TransparencySection() {
                   <th className="py-3.5 px-4">वर्ग (Category)</th>
                   <th className="py-3.5 px-4">दिनांक</th>
                   <th className="py-3.5 px-4 text-right">रक्कम (Amount)</th>
+                  <th className="py-3.5 px-4 text-center">पावती (Receipt)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-500/10">
@@ -211,6 +214,19 @@ export default function TransparencySection() {
                     }`}>
                       {item.type === 'collection' ? '+' : '-'}{formatRupee(item.amount)}
                     </td>
+                    <td className="py-3 px-4 text-center">
+                      {item.type === 'collection' ? (
+                        <button
+                          onClick={() => setSelectedReceiptRecord(item)}
+                          className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 text-[11px] font-bold inline-flex items-center space-x-1 transition-all"
+                        >
+                          <Printer className="w-3.5 h-3.5 text-amber-400" />
+                          <span>🧾 पावती</span>
+                        </button>
+                      ) : (
+                        <span className="text-slate-500 text-[11px]">-</span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -220,6 +236,14 @@ export default function TransparencySection() {
         </div>
 
       </div>
+
+      {/* Donation Receipt Modal */}
+      {selectedReceiptRecord && (
+        <DonationReceiptModal
+          record={selectedReceiptRecord}
+          onClose={() => setSelectedReceiptRecord(null)}
+        />
+      )}
     </section>
   );
 }

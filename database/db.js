@@ -174,10 +174,94 @@ export async function initDbConnection() {
     console.log('✅ Connected successfully to MySQL Database (High-Performance Connection Pool Active)');
     connection.release();
     isMySqlConnected = true;
+
+    // Ensure database tables exist and support LONGTEXT images
+    await setupDatabaseTables();
   } catch (error) {
     console.log('⚠️ MySQL Connection Notice:', error.message);
     console.log('⚡ Active mode: Using high-speed embedded data provider (MySQL schema available in database/schema.sql)');
     isMySqlConnected = false;
+  }
+}
+
+async function setupDatabaseTables() {
+  if (!pool || !isMySqlConnected) return;
+  try {
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS committee_members (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        role VARCHAR(100) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
+        email VARCHAR(120) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        avatar_url LONGTEXT,
+        bio TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS financial_records (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        type VARCHAR(50) NOT NULL,
+        donor_or_purpose VARCHAR(255) NOT NULL,
+        amount DECIMAL(12,2) NOT NULL,
+        category VARCHAR(100) NOT NULL,
+        date DATE NOT NULL,
+        receipt_no VARCHAR(50) DEFAULT NULL,
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS events_and_banners (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        subtitle VARCHAR(255) DEFAULT NULL,
+        event_type VARCHAR(100) NOT NULL,
+        event_date DATETIME NOT NULL,
+        location VARCHAR(255) DEFAULT 'Mathur Giri Maharaj Math Sansthan, Gotegaon',
+        description TEXT NOT NULL,
+        banner_image_url LONGTEXT,
+        kirtankar_name VARCHAR(150) DEFAULT NULL,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS gallery_photos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        category VARCHAR(100) NOT NULL,
+        image_url LONGTEXT NOT NULL,
+        caption TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS announcements (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        priority VARCHAR(50) DEFAULT 'normal',
+        author VARCHAR(150) DEFAULT NULL,
+        date DATE NOT NULL,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    // Ensure columns are LONGTEXT to support Base64 uploaded images
+    try { await pool.execute(`ALTER TABLE gallery_photos MODIFY COLUMN image_url LONGTEXT`); } catch (e) {}
+    try { await pool.execute(`ALTER TABLE events_and_banners MODIFY COLUMN banner_image_url LONGTEXT`); } catch (e) {}
+
+    console.log('✅ MySQL Database Schema verified & ready.');
+  } catch (err) {
+    console.log('Notice initializing MySQL tables:', err.message);
   }
 }
 

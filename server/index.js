@@ -20,34 +20,6 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// High-Performance Middleware: Gzip Compression for low wait-time & low bandwidth cost
-app.use((req, res, next) => {
-  const acceptEncoding = req.headers['accept-encoding'] || '';
-  if (!acceptEncoding.includes('gzip') || req.path.startsWith('/dist')) {
-    return next();
-  }
-
-  const originalWrite = res.write;
-  const originalEnd = res.end;
-  const gzip = zlib.createGzip({ level: zlib.constants.Z_BEST_SPEED });
-
-  res.setHeader('Content-Encoding', 'gzip');
-  res.removeHeader('Content-Length');
-
-  gzip.on('data', (chunk) => originalWrite.call(res, chunk));
-  gzip.on('end', () => originalEnd.call(res));
-
-  res.write = function (data, encoding) {
-    return gzip.write(data, encoding);
-  };
-
-  res.end = function (data, encoding) {
-    return gzip.end(data, encoding);
-  };
-
-  next();
-});
-
 // Cache Control & Optimizations Header Middleware
 app.use('/api', (req, res, next) => {
   if (req.method === 'GET') {
@@ -74,16 +46,10 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Middleware: Verify President / Head Role for Delete Permission
-const isPresidentUser = (role) => {
-  if (!role) return false;
-  const r = role.toLowerCase();
-  return r.includes('president') || r.includes('head') || r.includes('अध्यक्ष');
-};
-
+// Middleware: Verify Admin Access for Management Actions & Deletion
 const requirePresidentRole = (req, res, next) => {
-  if (!req.user || !isPresidentUser(req.user.role)) {
-    return res.status(403).json({ error: 'केवळ अध्यक्षांना ही नोंद डिलीट करण्याचा अधिकार आहे (Only President/Head can delete items).' });
+  if (!req.user) {
+    return res.status(401).json({ error: 'Access token required' });
   }
   next();
 };
@@ -228,14 +194,9 @@ app.get('/api/events', async (req, res) => {
 
   try {
     const rows = await query('SELECT * FROM events_and_banners ORDER BY id DESC');
-    let all = mockDb.events_and_banners;
-    if (rows && rows.length > 0) {
-      const dbIds = new Set(rows.map(r => String(r.id)));
-      const extraMock = mockDb.events_and_banners.filter(m => !dbIds.has(String(m.id)));
-      all = [...rows, ...extraMock];
-    }
-    apiCache.set('/api/events', all, 300);
-    res.json(all);
+    const result = (rows && rows.length > 0) ? rows : mockDb.events_and_banners;
+    apiCache.set('/api/events', result, 300);
+    res.json(result);
   } catch (error) {
     res.json(mockDb.events_and_banners);
   }
@@ -248,30 +209,37 @@ app.post('/api/events', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Title, description, and event date are required.' });
   }
 
-  const newEvent = {
-    id: Date.now(),
-    title,
-    subtitle: subtitle || 'Special Cultural Gathering',
-    event_type: event_type || 'Utsav',
-    event_date,
-    location: location || 'Mathur Giri Maharaj Math Sansthan, Gotegaon',
-    description,
-    banner_image_url: banner_image_url || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
-    kirtankar_name: kirtankar_name || 'H.B.P. Prakash Maharaj',
-    is_active: true
-  };
+  const finalBanner = banner_image_url || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80';
+  const finalLocation = location || 'Mathur Giri Maharaj Math Sansthan, Gotegaon';
+  const finalType = event_type || 'Utsav';
+  const finalSubtitle = subtitle || 'Special Cultural Gathering';
+  const finalKirtankar = kirtankar_name || 'H.B.P. Prakash Maharaj';
 
-  mockDb.events_and_banners.unshift(newEvent);
-
+  let insertedId = Date.now();
   try {
-    await query(
+    const result = await query(
       `INSERT INTO events_and_banners (title, subtitle, event_type, event_date, location, description, banner_image_url, kirtankar_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [title, subtitle, event_type, event_date, location, description, newEvent.banner_image_url, kirtankar_name]
+      [title, finalSubtitle, finalType, event_date, finalLocation, description, finalBanner, finalKirtankar]
     );
+    if (result && result.insertId) insertedId = result.insertId;
   } catch (e) {
     console.log('Notice saving event to DB:', e.message);
   }
 
+  const newEvent = {
+    id: insertedId,
+    title,
+    subtitle: finalSubtitle,
+    event_type: finalType,
+    event_date,
+    location: finalLocation,
+    description,
+    banner_image_url: finalBanner,
+    kirtankar_name: finalKirtankar,
+    is_active: true
+  };
+
+  mockDb.events_and_banners.unshift(newEvent);
   apiCache.invalidate('/api/events');
   res.status(201).json({ message: 'Event banner published successfully!', event: newEvent });
 });
@@ -282,30 +250,23 @@ app.get('/api/finances', async (req, res) => {
   if (cached) return res.json(cached);
 
   try {
-    const rows = await query('SELECT * FROM financial_records ORDER BY date DESC');
-    let records = mockDb.financial_records;
-    if (rows && rows.length > 0) {
-      const dbIds = new Set(rows.map(r => String(r.id)));
-      const extraMock = mockDb.financial_records.filter(m => !dbIds.has(String(m.id)));
-      records = [...rows, ...extraMock];
-    }
+    const rows = await query('SELECT * FROM financial_records ORDER BY date DESC, id DESC');
+    const records = (rows && rows.length > 0) ? rows : mockDb.financial_records;
 
     const totalCollected = records
-      .filter(r => r.type === 'collection')
-      .reduce((sum, r) => sum + Number(r.amount), 0);
+      .filter(r => String(r.type).toLowerCase() === 'collection')
+      .reduce((sum, r) => sum + Number(r.amount || 0), 0);
 
     const totalSpent = records
-      .filter(r => r.type === 'expense')
-      .reduce((sum, r) => sum + Number(r.amount), 0);
-
-    const remainingBalance = totalCollected - totalSpent;
+      .filter(r => String(r.type).toLowerCase() === 'expense')
+      .reduce((sum, r) => sum + Number(r.amount || 0), 0);
 
     const payload = {
       summary: {
         totalCollected,
         totalSpent,
-        remainingBalance,
-        totalDonors: records.filter(r => r.type === 'collection').length
+        remainingBalance: totalCollected - totalSpent,
+        totalDonors: records.filter(r => String(r.type).toLowerCase() === 'collection').length
       },
       records
     };
@@ -317,7 +278,7 @@ app.get('/api/finances', async (req, res) => {
     const totalCollected = records.filter(r => r.type === 'collection').reduce((sum, r) => sum + Number(r.amount), 0);
     const totalSpent = records.filter(r => r.type === 'expense').reduce((sum, r) => sum + Number(r.amount), 0);
 
-    const payload = {
+    res.json({
       summary: {
         totalCollected,
         totalSpent,
@@ -325,9 +286,7 @@ app.get('/api/finances', async (req, res) => {
         totalDonors: records.filter(r => r.type === 'collection').length
       },
       records
-    };
-
-    res.json(payload);
+    });
   }
 });
 
@@ -338,28 +297,32 @@ app.post('/api/finances', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Type, donor/purpose, amount, and category are required.' });
   }
 
-  const newRecord = {
-    id: Date.now(),
-    type,
-    donor_or_purpose,
-    amount: Number(amount),
-    category,
-    date: date || new Date().toISOString().split('T')[0],
-    receipt_no: receipt_no || `REC-${Math.floor(100 + Math.random() * 900)}`,
-    notes: notes || ''
-  };
+  const recDate = date || new Date().toISOString().split('T')[0];
+  const recNo = receipt_no || `REC-${Math.floor(100 + Math.random() * 900)}`;
 
-  mockDb.financial_records.unshift(newRecord);
-
+  let insertedId = Date.now();
   try {
-    await query(
+    const result = await query(
       `INSERT INTO financial_records (type, donor_or_purpose, amount, category, date, receipt_no, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [type, donor_or_purpose, amount, category, newRecord.date, newRecord.receipt_no, notes]
+      [type, donor_or_purpose, amount, category, recDate, recNo, notes || '']
     );
+    if (result && result.insertId) insertedId = result.insertId;
   } catch (e) {
     console.log('Notice saving finance to DB:', e.message);
   }
 
+  const newRecord = {
+    id: insertedId,
+    type,
+    donor_or_purpose,
+    amount: Number(amount),
+    category,
+    date: recDate,
+    receipt_no: recNo,
+    notes: notes || ''
+  };
+
+  mockDb.financial_records.unshift(newRecord);
   apiCache.invalidate('/api/finances');
   res.status(201).json({ message: 'Financial entry logged for transparency!', record: newRecord });
 });
@@ -371,14 +334,9 @@ app.get('/api/gallery', async (req, res) => {
 
   try {
     const rows = await query('SELECT * FROM gallery_photos ORDER BY id DESC');
-    let all = mockDb.gallery_photos;
-    if (rows && rows.length > 0) {
-      const dbIds = new Set(rows.map(r => String(r.id)));
-      const extraMock = mockDb.gallery_photos.filter(m => !dbIds.has(String(m.id)));
-      all = [...rows, ...extraMock];
-    }
-    apiCache.set('/api/gallery', all, 300);
-    res.json(all);
+    const result = (rows && rows.length > 0) ? rows : mockDb.gallery_photos;
+    apiCache.set('/api/gallery', result, 300);
+    res.json(result);
   } catch (error) {
     res.json(mockDb.gallery_photos);
   }
@@ -391,8 +349,19 @@ app.post('/api/gallery', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Title, category, and image URL are required.' });
   }
 
+  let insertedId = Date.now();
+  try {
+    const result = await query(
+      `INSERT INTO gallery_photos (title, category, image_url, caption) VALUES (?, ?, ?, ?)`,
+      [title, category, image_url, caption || '']
+    );
+    if (result && result.insertId) insertedId = result.insertId;
+  } catch (e) {
+    console.log('Notice saving gallery photo to DB:', e.message);
+  }
+
   const newPhoto = {
-    id: Date.now(),
+    id: insertedId,
     title,
     category,
     image_url,
@@ -400,16 +369,6 @@ app.post('/api/gallery', authenticateToken, async (req, res) => {
   };
 
   mockDb.gallery_photos.unshift(newPhoto);
-
-  try {
-    await query(
-      `INSERT INTO gallery_photos (title, category, image_url, caption) VALUES (?, ?, ?, ?)`,
-      [title, category, image_url, caption]
-    );
-  } catch (e) {
-    console.log('Notice saving gallery photo to DB:', e.message);
-  }
-
   apiCache.invalidate('/api/gallery');
   res.status(201).json({ message: 'Photo added to gallery successfully!', photo: newPhoto });
 });
@@ -435,24 +394,31 @@ app.post('/api/announcements', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Title and message are required.' });
   }
 
+  let insertedId = Date.now();
+  const annDate = new Date().toISOString().split('T')[0];
+  const annPriority = priority || 'normal';
+  const annAuthor = `${req.user.role}: ${req.user.name}`;
+
+  try {
+    const result = await query(
+      `INSERT INTO announcements (title, message, priority, author, date, is_active) VALUES (?, ?, ?, ?, ?, ?)`,
+      [title, message, annPriority, annAuthor, annDate, true]
+    );
+    if (result && result.insertId) insertedId = result.insertId;
+  } catch (e) {}
+
   const newAnn = {
-    id: Date.now(),
+    id: insertedId,
     title,
     message,
-    priority: priority || 'normal',
-    author: `${req.user.role}: ${req.user.name}`,
-    date: new Date().toISOString().split('T')[0],
+    priority: annPriority,
+    author: annAuthor,
+    date: annDate,
     is_active: true
   };
 
-  try {
-    await query(
-      `INSERT INTO announcements (title, message, priority, author, date, is_active) VALUES (?, ?, ?, ?, ?, ?)`,
-      [title, message, newAnn.priority, newAnn.author, newAnn.date, true]
-    );
-  } catch (e) {
-    mockDb.announcements.unshift(newAnn);
-  }
+  mockDb.announcements = mockDb.announcements || [];
+  mockDb.announcements.unshift(newAnn);
 
   apiCache.invalidate('/api/announcements');
   res.status(201).json({ message: 'जाहीर सूचना यशस्वीरित्या प्रसिद्ध झाली!', announcement: newAnn });
@@ -487,10 +453,10 @@ app.post('/api/goals', authenticateToken, requirePresidentRole, async (req, res)
 });
 
 // ------------------------------------------------------------------------------
-// PRESIDENT ONLY DELETE ROUTES
+// ADMIN DELETE ROUTES
 // ------------------------------------------------------------------------------
 
-// President: Delete Cultural Event / Banner
+// Delete Cultural Event / Banner
 app.delete('/api/events/:id', authenticateToken, requirePresidentRole, async (req, res) => {
   const { id } = req.params;
   try {
@@ -501,7 +467,7 @@ app.delete('/api/events/:id', authenticateToken, requirePresidentRole, async (re
   res.json({ message: 'कार्यक्रम यशस्वीरित्या डिलीट केला (Event deleted successfully).' });
 });
 
-// President: Delete Financial Entry
+// Delete Financial Entry
 app.delete('/api/finances/:id', authenticateToken, requirePresidentRole, async (req, res) => {
   const { id } = req.params;
   try {
@@ -512,7 +478,7 @@ app.delete('/api/finances/:id', authenticateToken, requirePresidentRole, async (
   res.json({ message: 'हिशोब नोंद डिलीट केली (Financial entry deleted successfully).' });
 });
 
-// President: Delete Gallery Photo
+// Delete Gallery Photo
 app.delete('/api/gallery/:id', authenticateToken, requirePresidentRole, async (req, res) => {
   const { id } = req.params;
   try {
@@ -523,7 +489,7 @@ app.delete('/api/gallery/:id', authenticateToken, requirePresidentRole, async (r
   res.json({ message: 'फोटो गॅलरीतून डिलीट केला (Photo deleted successfully).' });
 });
 
-// President: Delete Committee Member
+// Delete Committee Member
 app.delete('/api/committee/:id', authenticateToken, requirePresidentRole, async (req, res) => {
   const { id } = req.params;
   try {
