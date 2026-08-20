@@ -37,7 +37,7 @@ export default function PresidentCertificateModal({ record, onClose }) {
                 श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव
               </h2>
               <p className="text-xs text-amber-100/80 font-medium">
-                (स्वायत्त धार्मिक संस्था - गोटेगाव, ता. जि. धाराशिव / उस्मानाबाद)
+                (स्वायत्त धार्मिक संस्था - गोटेगाव, ता. केज, जि. बीड - ४३१५१७)
               </p>
             </div>
           </div>
@@ -110,11 +110,11 @@ export default function PresidentCertificateModal({ record, onClose }) {
                 <ShieldCheck className="w-3 h-3 text-amber-400" />
                 <span>डिजिटल स्वाक्षरीकृत</span>
               </div>
-              <p className="font-heading font-bold text-amber-200 text-sm">
-                श्री महादेवराव पाटील
+              <p className="font-heading font-bold text-amber-200 text-base pt-1">
+                श्री गणेश बोराडे
               </p>
-              <p className="text-[10px] text-amber-300/80">
-                अध्यक्ष - श्री मथुरा गिरी महाराज मठ संस्थान
+              <p className="text-[10px] font-semibold text-amber-300/90">
+                अध्यक्ष - श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव
               </p>
             </div>
           </div>

@@ -54,11 +54,11 @@ export default function Footer() {
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>श्री मथुरा गिरी महाराज मठ संस्थान, मुख्य चौक, गोटेगाव, महाराष्ट्र</span>
+                <span>श्री मथुरा गिरी महाराज मठ संस्थान, मुख्य चौक, गोटेगाव, ता. केज, जि. बीड - ४३१५१७</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>+91 98230 11223 (अध्यक्ष)</span>
+                <span>+91 98230 11223 (अध्यक्ष: श्री गणेश बोराडे)</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />

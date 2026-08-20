@@ -82,7 +82,7 @@ export default function DonationReceiptModal({ record, onClose }) {
               श्री मथुरा गिरी महाराज मठ संस्थान
             </h1>
             <p className="text-xs text-amber-300/90 font-medium">
-              मु. पो. गोटेगाव, ता. जि. बीड - ४३१५१७ | स्वायत्त धार्मिक विश्वस्त संस्था
+              मु. पो. गोटेगाव, ता. केज, जि. बीड - ४३१५१७ | स्वायत्त धार्मिक विश्वस्त संस्था
             </p>
             <div className="inline-block bg-amber-500 text-slate-950 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-md">
               अधिकृत देणगी / वर्गणी पावती (OFFICIAL DONATION RECEIPT)
@@ -170,14 +170,14 @@ export default function DonationReceiptModal({ record, onClose }) {
             <div className="text-right space-y-1">
               <div className="h-8 flex items-end justify-end">
                 <span className="text-[10px] text-amber-300 font-serif italic border-b border-amber-400/50 pb-0.5">
-                  अध्यक्ष / खजिनदार स्वाक्षरी
+                  अध्यक्ष स्वाक्षरी (President Signature)
                 </span>
               </div>
-              <p className="font-heading font-bold text-amber-200 text-xs pt-1">
-                श्री अध्यक्ष / खजिनदार
+              <p className="font-heading font-bold text-amber-200 text-sm pt-1">
+                श्री गणेश बोराडे
               </p>
-              <p className="text-[9px] text-amber-300/70">
-                श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव
+              <p className="text-[10px] font-semibold text-amber-300/90">
+                अध्यक्ष - श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव
               </p>
             </div>
           </div>
