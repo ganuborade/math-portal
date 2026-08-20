@@ -48,7 +48,7 @@ export default function HeroSection() {
         window.speechSynthesis.cancel();
         
         const utter = () => {
-          const utterance = new SpeechSynthesisUtterance("ॐ श्री मथुरा गिरी महाराजाय नमः");
+          const utterance = new SpeechSynthesisUtterance("राम कृष्ण हरी");
           utterance.rate = 0.8;
           utterance.pitch = 1.0;
 
