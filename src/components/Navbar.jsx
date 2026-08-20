@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, HeartHandshake, Image as ImageIcon, Calendar, IndianRupee, Menu, X, Landmark, UserCheck } from 'lucide-react';
+import { ShieldCheck, HeartHandshake, Image as ImageIcon, Calendar, IndianRupee, Menu, X, Landmark, UserCheck, Printer } from 'lucide-react';
 
 export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -80,6 +80,15 @@ export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
 
           {/* Action Buttons */}
           <div className="hidden sm:flex items-center space-x-3">
+            <button
+              onClick={() => scrollToSection('transparency')}
+              className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-amber-400/40 flex items-center space-x-1.5 transition-all"
+              title="पावती व सन्मानपत्र प्रिंट करा"
+            >
+              <Printer className="w-4 h-4 text-amber-400" />
+              <span>🧾 पावती प्रिंट</span>
+            </button>
+
             <button
               onClick={() => scrollToSection('donate')}
               className="saffron-gradient-btn text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center space-x-2 border border-amber-300/30"

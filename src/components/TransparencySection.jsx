@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { IndianRupee, ShieldCheck, TrendingUp, TrendingDown, Wallet, FileText, CheckCircle2, Search, Printer } from 'lucide-react';
+import { IndianRupee, ShieldCheck, TrendingUp, TrendingDown, Wallet, FileText, CheckCircle2, Search, Printer, Award } from 'lucide-react';
 import DonationReceiptModal from './DonationReceiptModal';
+import PresidentCertificateModal from './admin/PresidentCertificateModal';
 
 export default function TransparencySection() {
   const [financeData, setFinanceData] = useState({
@@ -11,6 +12,7 @@ export default function TransparencySection() {
   const [filterType, setFilterType] = useState('all'); // all, collection, expense
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedReceiptRecord, setSelectedReceiptRecord] = useState(null);
+  const [selectedCertificateRecord, setSelectedCertificateRecord] = useState(null);
 
   useEffect(() => {
     fetch('/api/finances')
@@ -52,7 +54,7 @@ export default function TransparencySection() {
             मठ निर्माण निधी जमा व खर्चाचा थेट हिशोब
           </h2>
           <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
-            गोटेगाव ग्रामस्थांनी व बाहेरून आलेल्या भाविकांनी दिलेल्या प्रत्येक रुपयाचा अधिकृत हिशोब आणि पावती नोंदणी.
+            गोटेगाव ग्रामस्थांनी व बाहेरून आलेल्या भाविकांनी दिलेल्या प्रत्येक रुपयाचा अधिकृत हिशोब, पावती व सन्मानपत्र नोंदणी.
           </p>
         </div>
 
@@ -116,6 +118,14 @@ export default function TransparencySection() {
 
         </div>
 
+        {/* Public Notice Banner */}
+        <div className="bg-amber-950/40 border border-amber-500/30 p-4 rounded-2xl flex items-center space-x-3 text-xs sm:text-sm text-amber-200">
+          <Printer className="w-5 h-5 text-amber-400 shrink-0" />
+          <span>
+            <strong>सर्व भाविकांसाठी मोफत पावती सुविधा:</strong> कोणत्याही लॉगिनशिवाय सर्व दाते खालील तक्त्यात स्वतःचे नाव किंवा पावती नंबर शोधून आपली <strong>देणगी पावती (Receipt)</strong> व <strong>सन्मानपत्र (Certificate)</strong> पाहू व प्रिंट करू शकतात.
+          </span>
+        </div>
+
         {/* Audit Log Table Section */}
         <div className="glass-panel rounded-3xl p-6 border border-amber-500/30 space-y-6">
           
@@ -157,11 +167,11 @@ export default function TransparencySection() {
             </div>
 
             {/* Search Input */}
-            <div className="relative w-full sm:w-64">
+            <div className="relative w-full sm:w-72">
               <Search className="w-4 h-4 text-amber-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="पावती किंवा नावाने शोधा..."
+                placeholder="पावती क्र. किंवा नावाने शोधा..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-900/90 text-amber-100 text-xs pl-9 pr-4 py-2 rounded-xl border border-amber-500/30 focus:outline-none focus:border-amber-400"
@@ -181,7 +191,7 @@ export default function TransparencySection() {
                   <th className="py-3.5 px-4">वर्ग (Category)</th>
                   <th className="py-3.5 px-4">दिनांक</th>
                   <th className="py-3.5 px-4 text-right">रक्कम (Amount)</th>
-                  <th className="py-3.5 px-4 text-center">पावती (Receipt)</th>
+                  <th className="py-3.5 px-4 text-center">पावती व सन्मानपत्र (Print)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-500/10">
@@ -216,13 +226,24 @@ export default function TransparencySection() {
                     </td>
                     <td className="py-3 px-4 text-center">
                       {item.type === 'collection' ? (
-                        <button
-                          onClick={() => setSelectedReceiptRecord(item)}
-                          className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 text-[11px] font-bold inline-flex items-center space-x-1 transition-all"
-                        >
-                          <Printer className="w-3.5 h-3.5 text-amber-400" />
-                          <span>🧾 पावती</span>
-                        </button>
+                        <div className="flex items-center justify-center space-x-1.5 flex-wrap gap-1">
+                          <button
+                            onClick={() => setSelectedReceiptRecord(item)}
+                            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-[11px] font-bold inline-flex items-center space-x-1 transition-all shadow-sm"
+                            title="देणगी पावती प्रिंट करा"
+                          >
+                            <Printer className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>🧾 पावती</span>
+                          </button>
+                          <button
+                            onClick={() => setSelectedCertificateRecord(item)}
+                            className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 text-[11px] font-bold inline-flex items-center space-x-1 transition-all shadow-sm"
+                            title="आभार व सन्मानपत्र प्रिंट करा"
+                          >
+                            <Award className="w-3.5 h-3.5 text-amber-400" />
+                            <span>📜 सन्मानपत्र</span>
+                          </button>
+                        </div>
                       ) : (
                         <span className="text-slate-500 text-[11px]">-</span>
                       )}
@@ -244,6 +265,15 @@ export default function TransparencySection() {
           onClose={() => setSelectedReceiptRecord(null)}
         />
       )}
+
+      {/* President Certificate Modal */}
+      {selectedCertificateRecord && (
+        <PresidentCertificateModal
+          record={selectedCertificateRecord}
+          onClose={() => setSelectedCertificateRecord(null)}
+        />
+      )}
     </section>
   );
 }
+
