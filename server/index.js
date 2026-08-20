@@ -500,14 +500,10 @@ app.delete('/api/committee/:id', authenticateToken, requirePresidentRole, async 
   res.json({ message: 'समिती सदस्य डिलीट केला (Committee member deleted successfully).' });
 });
 
-// Serve Frontend Static Assets in Production
-const distPath = path.join(__dirname, '../dist');
-app.use(express.static(distPath));
-
-// SPA Client-Side Routing Fallback (for non-API routes)
+// SPA Client-Side Routing Fallback (Redirect to Vite Dev Server for fresh HMR in local mode)
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.redirect('http://localhost:3000');
   } else {
     res.status(404).json({ error: 'API endpoint not found' });
   }
