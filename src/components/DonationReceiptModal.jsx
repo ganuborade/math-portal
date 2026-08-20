@@ -36,31 +36,6 @@ export default function DonationReceiptModal({ record, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <style>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          #printable-donation-receipt, #printable-donation-receipt * {
-            visibility: visible;
-          }
-          #printable-donation-receipt {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            padding: 20px;
-            background: white !important;
-            color: black !important;
-            border: 3px double #d97706 !important;
-            box-shadow: none !important;
-          }
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
-
       <div className="relative max-w-2xl w-full bg-slate-950 p-2 sm:p-4 rounded-3xl border-2 border-amber-400/80 shadow-2xl space-y-4">
         
         {/* Printable Official Receipt Frame */}

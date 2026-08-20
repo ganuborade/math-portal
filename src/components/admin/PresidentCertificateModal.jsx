@@ -122,7 +122,7 @@ export default function PresidentCertificateModal({ record, onClose }) {
         </div>
 
         {/* Modal Action Controls */}
-        <div className="p-3 flex items-center justify-end space-x-3 bg-slate-900/90 rounded-2xl border border-amber-500/30">
+        <div className="p-3 flex items-center justify-end space-x-3 bg-slate-900/90 rounded-2xl border border-amber-500/30 no-print">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-slate-800 text-amber-200 rounded-xl text-xs font-bold hover:bg-slate-700 transition-colors"

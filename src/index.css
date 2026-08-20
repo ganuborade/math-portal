@@ -66,3 +66,118 @@
 .devotional-border {
   border-image: linear-gradient(to right, #78350f, #f59e0b, #78350f) 1;
 }
+
+/* Printable Receipt & Certificate Styles - Fixed to exactly 1 page */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 6mm;
+  }
+
+  /* Force document height to exactly 1 page to eliminate extra blank pages */
+  html, body, #root {
+    height: 100% !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide main application contents */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Show only printable elements */
+  #printable-donation-receipt,
+  #printable-donation-receipt *,
+  #printable-certificate,
+  #printable-certificate * {
+    visibility: visible !important;
+  }
+
+  /* Position printable element nicely at the top of the single page */
+  #printable-donation-receipt,
+  #printable-certificate {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 16px 20px !important;
+    background: #fffdfa !important;
+    color: #0f172a !important;
+    border: 3px double #d97706 !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    z-index: 999999 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  /* Refine colors for print visibility */
+  #printable-donation-receipt *,
+  #printable-certificate * {
+    text-shadow: none !important;
+  }
+
+  #printable-donation-receipt .text-amber-100,
+  #printable-donation-receipt .text-amber-200,
+  #printable-donation-receipt .text-amber-300,
+  #printable-donation-receipt .text-amber-400,
+  #printable-certificate .text-amber-100,
+  #printable-certificate .text-amber-200,
+  #printable-certificate .text-amber-300,
+  #printable-certificate .text-amber-400 {
+    color: #92400e !important;
+  }
+
+  #printable-donation-receipt .text-white,
+  #printable-certificate .text-white {
+    color: #0f172a !important;
+  }
+
+  #printable-donation-receipt .text-slate-200,
+  #printable-donation-receipt .text-slate-300,
+  #printable-certificate .text-slate-200,
+  #printable-certificate .text-slate-300 {
+    color: #1e293b !important;
+  }
+
+  #printable-donation-receipt .bg-slate-900,
+  #printable-donation-receipt .bg-slate-950,
+  #printable-donation-receipt .bg-amber-950\/20,
+  #printable-certificate .bg-slate-900,
+  #printable-certificate .bg-slate-950,
+  #printable-certificate .bg-amber-950 {
+    background-color: #fef3c7 !important;
+    border-color: #f59e0b !important;
+  }
+
+  #printable-donation-receipt .bg-amber-500,
+  #printable-certificate .bg-amber-500 {
+    background-color: #d97706 !important;
+    color: #ffffff !important;
+  }
+
+  #printable-donation-receipt .text-emerald-400,
+  #printable-certificate .text-emerald-400 {
+    color: #047857 !important;
+  }
+
+  /* Hide print buttons, modal action bars, and close controls */
+  .no-print,
+  .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+  }
+}
+
