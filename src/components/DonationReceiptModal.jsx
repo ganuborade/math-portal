@@ -149,7 +149,7 @@ export default function DonationReceiptModal({ record, onClose }) {
                 </span>
               </div>
               <p className="font-heading font-bold text-amber-200 text-sm pt-1">
-                श्री गणेश बोराडे
+                श्री बोराडे सर
               </p>
               <p className="text-[10px] font-semibold text-amber-300/90">
                 अध्यक्ष - श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव
