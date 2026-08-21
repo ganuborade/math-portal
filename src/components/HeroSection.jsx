@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, HeartHandshake, ArrowRight, Volume2, VolumeX, Shield, Users, Landmark, Flame, MapPin } from 'lucide-react';
+import { Sparkles, ArrowRight, Volume2, VolumeX, Shield, Flame, MapPin } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+  const { isDark } = useTheme();
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const audioIntervalRef = useRef(null);
 
@@ -112,38 +116,41 @@ export default function HeroSection() {
         {/* Sacred Badge */}
         <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-panel-gold border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-medium tracking-wide animate-pulse-slow">
           <Flame className="w-4 h-4 text-amber-400 animate-bounce" />
-          <span>॥ शांततेचे व भक्तीचे पवित्र स्थान | गोटेगाव ग्रामस्थ संचलित ॥</span>
+          <span>{t('heroBadge')}</span>
         </div>
 
         {/* Hero Title */}
         <div className="space-y-4">
           <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
             <span className="block text-amber-400 text-lg sm:text-2xl font-cinzel tracking-wider uppercase mb-2">
-              Shri Mathur Giri Maharaj Math Sansthan, Gotegaon
+              {t('heroSubHeading')}
             </span>
             <span className="gold-gradient-text">
-              श्री मथुरा गिरी महाराज मठ संस्थान गोटेगाव
+              {t('heroTitle')}
             </span>
           </h1>
 
-          <p className="max-w-3xl mx-auto text-sm sm:text-base lg:text-lg text-slate-300 font-light leading-relaxed">
-            यावर्षी गोटेगाव ग्रामस्थांनी एकमुखाने एकत्र येऊन, कोणत्याही शासकीय अनुदानाशिवाय, 
-            स्वतःच्या वर्गणीतून जुन्या मठाच्या ठिकाणी उभं केलं आहे हे 
-            <strong className="text-amber-300 font-semibold"> भव्य नवीन मठ संस्थान</strong>. 
-            सर्व भाविकांच्या शांती, भक्ती आणि आध्यात्मिक प्रगतीचे हे केंद्र आहे.
+          <p className={`max-w-3xl mx-auto text-sm sm:text-base lg:text-lg font-light leading-relaxed ${
+            isDark ? 'text-slate-300' : 'text-slate-700'
+          }`}>
+            {t('heroDesc')}
           </p>
         </div>
 
-        {/* Devotional Mantra Card & Chanting Player Mock */}
-        <div className="max-w-md mx-auto glass-panel p-4 rounded-2xl border border-amber-500/30 flex items-center justify-between shadow-xl">
+        {/* Devotional Mantra Card & Chanting Player */}
+        <div className={`max-w-md mx-auto p-4 rounded-2xl border flex items-center justify-between shadow-xl ${
+          isDark ? 'glass-panel border-amber-500/30' : 'bg-white/90 border-amber-300 text-slate-900'
+        }`}>
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-400/40">
               <Sparkles className="w-5 h-5 text-amber-400" />
             </div>
             <div className="text-left">
-              <div className="text-xs text-amber-300/80 font-medium">नामस्मरण मंतर (Chanting)</div>
-              <div className="text-sm font-bold text-amber-100 font-heading">
-                ॥ राम कृष्ण हरी॥
+              <div className={`text-xs font-medium ${isDark ? 'text-amber-300/80' : 'text-amber-800'}`}>
+                {t('heroMantraTitle')}
+              </div>
+              <div className={`text-sm font-bold font-heading ${isDark ? 'text-amber-100' : 'text-amber-950'}`}>
+                {t('heroMantraText')}
               </div>
             </div>
           </div>
@@ -153,7 +160,7 @@ export default function HeroSection() {
             className={`p-2.5 rounded-xl border transition-all ${
               isPlayingAudio 
                 ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md shadow-amber-500/50' 
-                : 'bg-slate-900 text-amber-400 border-amber-500/30 hover:bg-slate-800'
+                : isDark ? 'bg-slate-900 text-amber-400 border-amber-500/30 hover:bg-slate-800' : 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
             }`}
           >
             {isPlayingAudio ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
@@ -164,51 +171,67 @@ export default function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <button
             onClick={() => scrollToSection('gallery')}
-            className="w-full sm:w-auto saffron-gradient-btn text-slate-950 font-bold text-sm px-7 py-3.5 rounded-xl flex items-center justify-center space-x-2 border border-amber-300/40"
+            className="w-full sm:w-auto saffron-gradient-btn text-white font-bold text-sm px-7 py-3.5 rounded-xl flex items-center justify-center space-x-2 border border-amber-300/40"
           >
-            <span>मठाची फोटो गॅलरी (Old to New Math)</span>
+            <span>{t('heroGalleryBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => scrollToSection('transparency')}
-            className="w-full sm:w-auto bg-slate-900/90 hover:bg-slate-800 text-amber-300 font-semibold text-sm px-7 py-3.5 rounded-xl border border-amber-500/40 flex items-center justify-center space-x-2 transition-all hover:scale-105"
+            className={`w-full sm:w-auto font-semibold text-sm px-7 py-3.5 rounded-xl border flex items-center justify-center space-x-2 transition-all hover:scale-105 ${
+              isDark 
+                ? 'bg-slate-900/90 hover:bg-slate-800 text-amber-300 border-amber-500/40' 
+                : 'bg-white hover:bg-amber-50 text-amber-900 border-amber-300 shadow-sm'
+            }`}
           >
-            <Shield className="w-4 h-4 text-amber-400" />
-            <span>ग्रामस्थ लोकवर्गणी हिशोब (Transparency)</span>
+            <Shield className="w-4 h-4 text-amber-500" />
+            <span>{t('heroTransparencyBtn')}</span>
           </button>
 
           <a
             href="https://www.google.com/maps/place/Shri+Mthur+Giri+Maharaj+Sansthan+Gotegaon/@18.6325101,76.0856975,196m/data=!3m1!1e3!4m6!3m5!1s0x3bc56bb44c57f33b:0x7826f6f2dccf346a!8m2!3d18.6325012!4d76.0863546!16s%2Fg%2F11sw13f96x?entry=ttu&g_ep=EgoyMDI2MDgxNy4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 font-semibold text-sm px-7 py-3.5 rounded-xl border border-amber-400/50 flex items-center justify-center space-x-2 transition-all hover:scale-105"
+            className={`w-full sm:w-auto font-semibold text-sm px-7 py-3.5 rounded-xl border flex items-center justify-center space-x-2 transition-all hover:scale-105 ${
+              isDark 
+                ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border-amber-400/50' 
+                : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300'
+            }`}
           >
-            <MapPin className="w-4 h-4 text-amber-400" />
-            <span>📍 मठाचे स्थान (Google Map)</span>
+            <MapPin className="w-4 h-4 text-amber-500" />
+            <span>{t('heroMapBtn')}</span>
           </a>
         </div>
 
         {/* Highlight Feature Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-4xl mx-auto">
-          <div className="glass-panel p-4 rounded-xl border border-amber-500/20 text-center hover:border-amber-400/40 transition-colors">
-            <div className="text-2xl font-bold text-amber-400 font-heading">१००%</div>
-            <div className="text-xs text-slate-300 font-medium mt-1">लोकवर्गणी (No Govt Aid)</div>
+          <div className={`p-4 rounded-xl border text-center transition-colors ${
+            isDark ? 'glass-panel border-amber-500/20' : 'bg-white/90 border-amber-300 shadow-sm'
+          }`}>
+            <div className="text-2xl font-bold text-amber-500 font-heading">{t('heroStat1Val')}</div>
+            <div className={`text-xs font-medium mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{t('heroStat1Lbl')}</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-xl border border-amber-500/20 text-center hover:border-amber-400/40 transition-colors">
-            <div className="text-2xl font-bold text-amber-400 font-heading">२०२६</div>
-            <div className="text-xs text-slate-300 font-medium mt-1">नवीन मंदिर निर्मिती वर्ष</div>
+          <div className={`p-4 rounded-xl border text-center transition-colors ${
+            isDark ? 'glass-panel border-amber-500/20' : 'bg-white/90 border-amber-300 shadow-sm'
+          }`}>
+            <div className="text-2xl font-bold text-amber-500 font-heading">{t('heroStat2Val')}</div>
+            <div className={`text-xs font-medium mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{t('heroStat2Lbl')}</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-xl border border-amber-500/20 text-center hover:border-amber-400/40 transition-colors">
-            <div className="text-2xl font-bold text-amber-400 font-heading">५ सदस्य</div>
-            <div className="text-xs text-slate-300 font-medium mt-1">अधिकृत विश्वस्त समिती</div>
+          <div className={`p-4 rounded-xl border text-center transition-colors ${
+            isDark ? 'glass-panel border-amber-500/20' : 'bg-white/90 border-amber-300 shadow-sm'
+          }`}>
+            <div className="text-2xl font-bold text-amber-500 font-heading">{t('heroStat3Val')}</div>
+            <div className={`text-xs font-medium mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{t('heroStat3Lbl')}</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-xl border border-amber-500/20 text-center hover:border-amber-400/40 transition-colors">
-            <div className="text-2xl font-bold text-amber-400 font-heading">वार्षिक उत्सव</div>
-            <div className="text-xs text-slate-300 font-medium mt-1">जयंती व पुण्यतिथी सोहळा</div>
+          <div className={`p-4 rounded-xl border text-center transition-colors ${
+            isDark ? 'glass-panel border-amber-500/20' : 'bg-white/90 border-amber-300 shadow-sm'
+          }`}>
+            <div className="text-2xl font-bold text-amber-500 font-heading">{t('heroStat4Val')}</div>
+            <div className={`text-xs font-medium mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{t('heroStat4Lbl')}</div>
           </div>
         </div>
 

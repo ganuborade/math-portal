@@ -8,6 +8,7 @@ import EventsSection from './components/EventsSection';
 import TransparencySection from './components/TransparencySection';
 import DonateSection from './components/DonateSection';
 import MapFeedbackSection from './components/MapFeedbackSection';
+import DisclaimerSection from './components/DisclaimerSection';
 import Footer from './components/Footer';
 import AdminLoginModal from './components/admin/AdminLoginModal';
 import AdminDashboard from './components/admin/AdminDashboard';
@@ -86,6 +87,7 @@ export default function App() {
             <TransparencySection />
             <DonateSection />
             <MapFeedbackSection />
+            <DisclaimerSection />
           </main>
 
           {/* Footer */}

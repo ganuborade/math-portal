@@ -35,20 +35,19 @@ export default function Footer() {
             </div>
 
             <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              गोटेगाव | संपूर्ण ग्रामस्थांच्या एकतेतून व लोकवर्गणीतून यावर्षी साकारलेला भव्य नवीन मठ संस्थान. 
-              येथे येणाऱ्या प्रत्येक भाविकाला शांती, समाधान आणि विठ्ठल नामाचा आनंद प्राप्त होतो.
+              {t('footerMission')}
             </p>
 
             <div className="flex items-center space-x-2 text-xs text-amber-500 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>१००% गोटेगाव ग्रामस्थ संचलित | शासकीय अनुदानाशिवाय निर्मित</span>
+              <span>{t('footerTrustBadge')}</span>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className={`font-heading font-bold text-sm ${isDark ? 'text-amber-200' : 'text-amber-900'}`}>
-              त्वरित दुवे (Quick Links)
+              {t('quickLinksHeader')}
             </h4>
             <ul className={`space-y-2 text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               <li><a href="#history" className="hover:text-amber-500 transition-colors">{t('navHistory')}</a></li>
@@ -56,6 +55,7 @@ export default function Footer() {
               <li><a href="#events" className="hover:text-amber-500 transition-colors">{t('navEvents')}</a></li>
               <li><a href="#transparency" className="hover:text-amber-500 transition-colors">{t('navTransparency')}</a></li>
               <li><a href="#donate" className="hover:text-amber-500 transition-colors">{t('navDonate')}</a></li>
+              <li><a href="#disclaimer" className="hover:text-amber-500 transition-colors">{t('disclaimerBadge')}</a></li>
               <li>
                 <a href="#map-feedback" className="hover:text-amber-500 transition-colors text-amber-500 font-semibold flex items-center space-x-1">
                   <MessageSquare className="w-3.5 h-3.5" />
@@ -68,7 +68,7 @@ export default function Footer() {
           {/* Contact Details */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className={`font-heading font-bold text-sm ${isDark ? 'text-amber-200' : 'text-amber-900'}`}>
-              मठ संपर्क व पत्ता (Address)
+              {t('contactHeader')}
             </h4>
             <ul className={`space-y-2.5 text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               <li>
@@ -80,9 +80,9 @@ export default function Footer() {
                 >
                   <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                   <div>
-                    <span>श्री मथुरा गिरी महाराज मठ संस्थान, गोटेगाव, ता. केज, जि. बीड - ४३१५१७</span>
+                    <span>{t('addressFull')}</span>
                     <span className="mt-1 inline-flex items-center space-x-1 text-[11px] text-amber-500 font-bold underline">
-                      <span>गूगल मॅपवर उघडा (Open Maps)</span>
+                      <span>{t('openMapsLink')}</span>
                       <ExternalLink className="w-3 h-3" />
                     </span>
                   </div>
@@ -90,7 +90,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2 pt-1">
                 <Phone className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>+91 9000000000 (अध्यक्ष: बोराडे सर)</span>
+                <span>+91 9000000000 ({t('presidentName')})</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-amber-500 shrink-0" />
@@ -104,7 +104,7 @@ export default function Footer() {
             <div className="flex items-center justify-between">
               <h4 className={`font-heading font-bold text-sm flex items-center space-x-1.5 ${isDark ? 'text-amber-200' : 'text-amber-900'}`}>
                 <Navigation className="w-4 h-4 text-amber-500" />
-                <span>गूगल मॅप स्थान (Google Map)</span>
+                <span>{t('googleMapHeader')}</span>
               </h4>
             </div>
 
@@ -125,13 +125,13 @@ export default function Footer() {
               <div className={`p-2 border-t flex items-center justify-between text-[11px] ${
                 isDark ? 'bg-slate-900/90 border-amber-500/30' : 'bg-amber-50 border-amber-300'
               }`}>
-                <span className="font-medium truncate pr-1">📍 गोटेगाव, ता. केज, बीड</span>
+                <span className="font-medium truncate pr-1">📍 {t('mapLocationTag')}</span>
                 <a
                   href="#map-feedback"
                   className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg flex items-center space-x-1 shrink-0 transition-all shadow-md text-[10px]"
                 >
                   <Navigation className="w-3 h-3" />
-                  <span>मॅप व अभिप्राय</span>
+                  <span>{t('navMapFeedback')}</span>
                 </a>
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function Footer() {
             © 2026 Mathur Giri Maharaj Math Sansthan Gotegaon. {t('devotionalBlessing')}
           </div>
           <div className="flex items-center space-x-1">
-            <span>निर्मिती व सेवा: गोटेगाव ग्रामस्थ व भाविक परिवार</span>
+            <span>{t('craftedByVillagers')}</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
           </div>
         </div>

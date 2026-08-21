@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon, ZoomIn, X, Tag, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 export default function GallerySection() {
+  const { t } = useLanguage();
+  const { isDark } = useTheme();
+
   const [photos, setPhotos] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -20,11 +25,11 @@ export default function GallerySection() {
   }, []);
 
   const categories = [
-    { key: 'All', label: 'सर्व फोटो (All Photos)' },
-    { key: 'Old Math & Maharaj', label: 'जुना मठ व महाराज फोटो (Old Heritage)' },
-    { key: 'Construction Phase', label: 'काम चालू असतानाचे फोटो (Construction)' },
-    { key: 'New Temple View', label: 'नवीन भव्य मंदिर (New Temple)' },
-    { key: 'Cultural Events', label: 'उत्सव व कीर्तन फोटो (Events)' },
+    { key: 'All', label: t('catAll') },
+    { key: 'Old Math & Maharaj', label: t('catOld') },
+    { key: 'Construction Phase', label: t('catConstruction') },
+    { key: 'New Temple View', label: t('catNew') },
+    { key: 'Cultural Events', label: t('catEvents') },
   ];
 
   const filteredPhotos = activeCategory === 'All'
@@ -32,20 +37,26 @@ export default function GallerySection() {
     : photos.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="gallery" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section id="gallery" className={`py-20 px-4 sm:px-6 lg:px-8 relative transition-colors duration-300 ${
+      isDark ? '' : 'bg-amber-50/30'
+    }`}>
       <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center space-x-2 text-amber-400 text-xs font-semibold uppercase tracking-wider bg-amber-950/50 px-3 py-1 rounded-full border border-amber-500/30">
-            <ImageIcon className="w-4 h-4" />
-            <span>चित्रपट व जुन्या आठवणी - Photo Gallery</span>
+          <div className={`inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider px-3.5 py-1 rounded-full border ${
+            isDark ? 'text-amber-400 bg-amber-950/50 border-amber-500/30' : 'text-amber-900 bg-amber-100 border-amber-300'
+          }`}>
+            <ImageIcon className="w-4 h-4 text-amber-500" />
+            <span>{t('galleryBadge')}</span>
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold gold-gradient-text">
-            जुन्या मठापासून ते नवीन मठाच्या विकासाची छायाचित्रे
+            {t('galleryTitle')}
           </h2>
-          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
-            श्री मथुरा गिरी महाराजांच्या जुन्या स्मृती, मठाचे जुने रूप, गावकऱ्यांच्या कष्टाने झालेले बांधकाम आणि आजचे भव्य स्वरूप.
+          <p className={`text-sm sm:text-base max-w-2xl mx-auto font-medium ${
+            isDark ? 'text-slate-300' : 'text-slate-700'
+          }`}>
+            {t('gallerySub')}
           </p>
         </div>
 
@@ -58,7 +69,7 @@ export default function GallerySection() {
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                 activeCategory === cat.key
                   ? 'saffron-gradient-btn text-white font-bold border border-amber-300/40 shadow-lg shadow-amber-600/30'
-                  : 'bg-slate-900/90 text-amber-200/80 hover:bg-slate-800 border border-amber-500/20'
+                  : isDark ? 'bg-slate-900/90 text-amber-200/80 hover:bg-slate-800 border border-amber-500/20' : 'bg-white text-slate-800 hover:bg-amber-100 border border-amber-300 shadow-sm'
               }`}
             >
               {cat.label}
@@ -68,8 +79,8 @@ export default function GallerySection() {
 
         {/* Photos Grid */}
         {loading ? (
-          <div className="text-center py-12 text-amber-300/70 animate-pulse">
-            छायाचित्रे लोड होत आहेत... (Loading Gallery Photos...)
+          <div className={`text-center py-12 animate-pulse ${isDark ? 'text-amber-300/70' : 'text-amber-800'}`}>
+            {t('loadingGallery')}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -77,7 +88,9 @@ export default function GallerySection() {
               <div
                 key={photo.id}
                 onClick={() => setSelectedPhoto(photo)}
-                className="group glass-panel rounded-2xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 transition-all duration-300 cursor-pointer flex flex-col"
+                className={`group rounded-2xl overflow-hidden border transition-all duration-300 cursor-pointer flex flex-col ${
+                  isDark ? 'glass-panel border-amber-500/30 hover:border-amber-400/60' : 'bg-white border-amber-300/80 shadow-md hover:border-amber-400'
+                }`}
               >
                 {/* Image Box */}
                 <div className="relative h-64 overflow-hidden bg-slate-900">
@@ -105,11 +118,13 @@ export default function GallerySection() {
 
                 {/* Caption Box */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-2">
-                  <h3 className="font-heading font-bold text-amber-200 text-base leading-snug group-hover:text-amber-400 transition-colors">
+                  <h3 className={`font-heading font-bold text-base leading-snug transition-colors ${
+                    isDark ? 'text-amber-200 group-hover:text-amber-400' : 'text-amber-900 group-hover:text-amber-600'
+                  }`}>
                     {photo.title}
                   </h3>
                   {photo.caption && (
-                    <p className="text-slate-300 text-xs line-clamp-2">
+                    <p className={`text-xs line-clamp-2 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                       {photo.caption}
                     </p>
                   )}
@@ -124,17 +139,21 @@ export default function GallerySection() {
       {/* Lightbox Modal */}
       {selectedPhoto && (
         <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative max-w-4xl w-full glass-panel-gold rounded-3xl border border-amber-400/50 overflow-hidden shadow-2xl space-y-4 p-4 sm:p-6 max-h-[90vh] flex flex-col">
+          <div className={`relative max-w-4xl w-full rounded-3xl border overflow-hidden shadow-2xl space-y-4 p-4 sm:p-6 max-h-[90vh] flex flex-col ${
+            isDark ? 'glass-panel-gold border-amber-400/50' : 'bg-white border-amber-300 text-slate-900'
+          }`}>
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-amber-500/20 pb-3">
-              <div className="flex items-center space-x-2 text-amber-300 text-sm font-bold font-heading">
-                <Sparkles className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center space-x-2 text-amber-500 text-sm font-bold font-heading">
+                <Sparkles className="w-4 h-4 text-amber-500" />
                 <span>{selectedPhoto.title}</span>
               </div>
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="p-2 rounded-xl bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-rose-950 hover:text-rose-300 hover:border-rose-700 transition-colors"
+                className={`p-2 rounded-xl border transition-colors ${
+                  isDark ? 'bg-slate-900 text-amber-400 border-amber-500/30 hover:bg-rose-950 hover:text-rose-300' : 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
+                }`}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -151,13 +170,17 @@ export default function GallerySection() {
 
             {/* Modal Details */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-amber-300/80">
-                <span className="bg-amber-950/60 px-3 py-1 rounded-lg border border-amber-500/30 font-medium">
-                  प्रवर्ग: {selectedPhoto.category}
+              <div className="flex items-center justify-between text-xs text-amber-500">
+                <span className={`px-3 py-1 rounded-lg border font-medium ${
+                  isDark ? 'bg-amber-950/60 border-amber-500/30 text-amber-300' : 'bg-amber-100 border-amber-300 text-amber-900'
+                }`}>
+                  {t('categoryLabel')}: {selectedPhoto.category}
                 </span>
               </div>
               {selectedPhoto.caption && (
-                <p className="text-slate-200 text-sm leading-relaxed bg-slate-900/80 p-3.5 rounded-xl border border-amber-500/20">
+                <p className={`text-sm leading-relaxed p-3.5 rounded-xl border ${
+                  isDark ? 'bg-slate-900/80 border-amber-500/20 text-slate-200' : 'bg-amber-50 border-amber-200 text-slate-800'
+                }`}>
                   {selectedPhoto.caption}
                 </p>
               )}
