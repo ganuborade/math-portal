@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, HeartHandshake, Image as ImageIcon, Calendar, IndianRupee, Menu, X, Landmark, UserCheck, 
-  Sun, Moon, Globe, MapPin 
+  Sun, Moon, Globe, MapPin, BookOpen 
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
@@ -58,7 +58,7 @@ export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className={`hidden lg:flex items-center space-x-6 text-sm font-medium ${
+          <nav className={`hidden lg:flex items-center space-x-5 text-sm font-medium ${
             isDark ? 'text-amber-100/90' : 'text-slate-700'
           }`}>
             <button 
@@ -98,6 +98,16 @@ export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
             >
               <MapPin className="w-4 h-4 text-amber-500" />
               <span>{t('navMapFeedback')}</span>
+            </button>
+
+            <button 
+              onClick={() => scrollToSection('user-manual')} 
+              className={`hover:text-amber-400 transition-all flex items-center space-x-1 px-2.5 py-1 rounded-lg border text-xs font-bold ${
+                isDark ? 'bg-amber-950/50 border-amber-500/40 text-amber-300' : 'bg-amber-100/80 border-amber-300 text-amber-900'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-amber-500" />
+              <span>{t('navManual')}</span>
             </button>
           </nav>
 
@@ -259,6 +269,13 @@ export default function Navbar({ onOpenAdminLogin, adminUser, onLogout }) {
           >
             <MapPin className="w-4 h-4 text-amber-500" />
             <span>{t('navMapFeedback')}</span>
+          </button>
+          <button 
+            onClick={() => scrollToSection('user-manual')}
+            className="w-full text-left py-2 px-3 rounded-lg hover:bg-amber-500/10 font-semibold text-amber-400 flex items-center space-x-2"
+          >
+            <BookOpen className="w-4 h-4 text-amber-500" />
+            <span>{t('navManual')}</span>
           </button>
 
           <div className="pt-2 flex flex-col space-y-2">

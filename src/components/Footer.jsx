@@ -55,6 +55,7 @@ export default function Footer() {
               <li><a href="#events" className="hover:text-amber-500 transition-colors">{t('navEvents')}</a></li>
               <li><a href="#transparency" className="hover:text-amber-500 transition-colors">{t('navTransparency')}</a></li>
               <li><a href="#donate" className="hover:text-amber-500 transition-colors">{t('navDonate')}</a></li>
+              <li><a href="#user-manual" className="hover:text-amber-500 transition-colors text-amber-400 font-bold">{t('navManual')}</a></li>
               <li><a href="#disclaimer" className="hover:text-amber-500 transition-colors">{t('disclaimerBadge')}</a></li>
               <li>
                 <a href="#map-feedback" className="hover:text-amber-500 transition-colors text-amber-500 font-semibold flex items-center space-x-1">

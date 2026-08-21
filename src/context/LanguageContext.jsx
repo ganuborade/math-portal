@@ -18,6 +18,7 @@ export const translations = {
     navTransparency: "पारदर्शकता व हिशोब",
     navDonate: "दान व संपर्क",
     navMapFeedback: "मॅप व अभिप्राय",
+    navManual: "वापर मार्गदर्शिका",
     adminLogin: "समिती लॉगिन",
 
     // Theme & Language Controls
@@ -166,6 +167,7 @@ export const translations = {
     navTransparency: "Transparency & Accounts",
     navDonate: "Donate & Contact",
     navMapFeedback: "Map & Feedback",
+    navManual: "User Manual",
     adminLogin: "Committee Login",
 
     // Theme & Language Controls
@@ -328,6 +330,7 @@ export const translations = {
     navTransparency: "पारदर्शिता व हिसाब",
     navDonate: "दान व संपर्क",
     navMapFeedback: "मैप व फीडबैक",
+    navManual: "उपयोग गाइड (Manual)",
     adminLogin: "समिति लॉगिन",
 
     // Theme & Language Controls

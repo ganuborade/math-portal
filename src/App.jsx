@@ -9,6 +9,7 @@ import TransparencySection from './components/TransparencySection';
 import DonateSection from './components/DonateSection';
 import MapFeedbackSection from './components/MapFeedbackSection';
 import DisclaimerSection from './components/DisclaimerSection';
+import UserManualSection from './components/UserManualSection';
 import Footer from './components/Footer';
 import AdminLoginModal from './components/admin/AdminLoginModal';
 import AdminDashboard from './components/admin/AdminDashboard';
@@ -87,6 +88,7 @@ export default function App() {
             <TransparencySection />
             <DonateSection />
             <MapFeedbackSection />
+            <UserManualSection onOpenAdminLogin={() => setIsAdminModalOpen(true)} />
             <DisclaimerSection />
           </main>
 
