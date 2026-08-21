@@ -7,9 +7,12 @@ import GallerySection from './components/GallerySection';
 import EventsSection from './components/EventsSection';
 import TransparencySection from './components/TransparencySection';
 import DonateSection from './components/DonateSection';
+import MapFeedbackSection from './components/MapFeedbackSection';
 import Footer from './components/Footer';
 import AdminLoginModal from './components/admin/AdminLoginModal';
 import AdminDashboard from './components/admin/AdminDashboard';
+import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 export default function App() {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
@@ -51,47 +54,52 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-amber-50">
-      
-      {/* Navigation Header */}
-      <Navbar
-        onOpenAdminLogin={() => setIsAdminModalOpen(true)}
-        adminUser={adminUser}
-        onLogout={handleLogout}
-      />
+    <ThemeProvider>
+      <LanguageProvider>
+        <div className="min-h-screen flex flex-col transition-colors duration-300">
+          
+          {/* Navigation Header */}
+          <Navbar
+            onOpenAdminLogin={() => setIsAdminModalOpen(true)}
+            adminUser={adminUser}
+            onLogout={handleLogout}
+          />
 
-      {/* Official President Live Announcement Marquee Banner */}
-      <PresidentAnnouncementBanner key={`banner-${refreshKey}`} />
+          {/* Official President Live Announcement Marquee Banner */}
+          <PresidentAnnouncementBanner key={`banner-${refreshKey}`} />
 
-      {/* Admin Panel (Visible when Committee Admin is logged in) */}
-      {adminUser && adminToken && (
-        <AdminDashboard
-          user={adminUser}
-          token={adminToken}
-          onRefreshData={handleRefreshData}
-        />
-      )}
+          {/* Admin Panel (Visible when Committee Admin is logged in) */}
+          {adminUser && adminToken && (
+            <AdminDashboard
+              user={adminUser}
+              token={adminToken}
+              onRefreshData={handleRefreshData}
+            />
+          )}
 
-      {/* Main Public Website Sections */}
-      <main className="flex-grow space-y-4" key={refreshKey}>
-        <HeroSection />
-        <HistorySection />
-        <GallerySection />
-        <EventsSection />
-        <TransparencySection />
-        <DonateSection />
-      </main>
+          {/* Main Public Website Sections */}
+          <main className="flex-grow space-y-4" key={refreshKey}>
+            <HeroSection />
+            <HistorySection />
+            <GallerySection />
+            <EventsSection />
+            <TransparencySection />
+            <DonateSection />
+            <MapFeedbackSection />
+          </main>
 
-      {/* Footer */}
-      <Footer />
+          {/* Footer */}
+          <Footer />
 
-      {/* Committee Login Modal */}
-      <AdminLoginModal
-        isOpen={isAdminModalOpen}
-        onClose={() => setIsAdminModalOpen(false)}
-        onLoginSuccess={handleLoginSuccess}
-      />
+          {/* Committee Login Modal */}
+          <AdminLoginModal
+            isOpen={isAdminModalOpen}
+            onClose={() => setIsAdminModalOpen(false)}
+            onLoginSuccess={handleLoginSuccess}
+          />
 
-    </div>
+        </div>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
