@@ -99,18 +99,17 @@ html.light .gold-gradient-text {
   border-image: linear-gradient(to right, #78350f, #f59e0b, #78350f) 1;
 }
 
-/* Printable Receipt & Certificate Styles - Fixed to exactly 1 page */
+/* Printable Styles - Multi-element print engine with clean paper contrast */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 6mm;
+    margin: 8mm;
   }
 
-  /* Force document height to exactly 1 page to eliminate extra blank pages */
-  html, body, #root {
-    height: 100% !important;
-    max-height: 100vh !important;
-    overflow: hidden !important;
+  html, body {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
@@ -119,20 +118,28 @@ html.light .gold-gradient-text {
     print-color-adjust: exact !important;
   }
 
-  /* Hide main application contents */
+  #root {
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  /* Hide entire page elements by default */
   body * {
     visibility: hidden !important;
   }
 
-  /* Show only printable elements */
+  /* Show only designated printable containers and their children */
   #printable-donation-receipt,
   #printable-donation-receipt *,
   #printable-certificate,
-  #printable-certificate * {
+  #printable-certificate *,
+  #printable-user-manual,
+  #printable-user-manual * {
     visibility: visible !important;
   }
 
-  /* Position printable element nicely at the top of the single page */
+  /* Single-page modals: Donation Receipt & Certificate */
   #printable-donation-receipt,
   #printable-certificate {
     position: fixed !important;
@@ -154,9 +161,29 @@ html.light .gold-gradient-text {
     overflow: hidden !important;
   }
 
-  /* Refine colors for print visibility */
+  /* Multi-page / Flowing Printable User Manual */
+  #printable-user-manual {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 12px 16px !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 2px solid #d97706 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    z-index: 999999 !important;
+    overflow: visible !important;
+  }
+
+  /* Refine colors for crisp paper print visibility */
   #printable-donation-receipt *,
-  #printable-certificate * {
+  #printable-certificate *,
+  #printable-user-manual * {
     text-shadow: none !important;
   }
 
@@ -167,19 +194,29 @@ html.light .gold-gradient-text {
   #printable-certificate .text-amber-100,
   #printable-certificate .text-amber-200,
   #printable-certificate .text-amber-300,
-  #printable-certificate .text-amber-400 {
+  #printable-certificate .text-amber-400,
+  #printable-user-manual .text-amber-100,
+  #printable-user-manual .text-amber-200,
+  #printable-user-manual .text-amber-300,
+  #printable-user-manual .text-amber-400,
+  #printable-user-manual .text-amber-500,
+  #printable-user-manual .text-amber-600 {
     color: #92400e !important;
   }
 
   #printable-donation-receipt .text-white,
-  #printable-certificate .text-white {
+  #printable-certificate .text-white,
+  #printable-user-manual .text-white {
     color: #0f172a !important;
   }
 
   #printable-donation-receipt .text-slate-200,
   #printable-donation-receipt .text-slate-300,
   #printable-certificate .text-slate-200,
-  #printable-certificate .text-slate-300 {
+  #printable-certificate .text-slate-300,
+  #printable-user-manual .text-slate-200,
+  #printable-user-manual .text-slate-300,
+  #printable-user-manual .text-slate-400 {
     color: #1e293b !important;
   }
 
@@ -188,19 +225,25 @@ html.light .gold-gradient-text {
   #printable-donation-receipt .bg-amber-950\/20,
   #printable-certificate .bg-slate-900,
   #printable-certificate .bg-slate-950,
-  #printable-certificate .bg-amber-950 {
+  #printable-certificate .bg-amber-950,
+  #printable-user-manual .bg-slate-900,
+  #printable-user-manual .bg-slate-950,
+  #printable-user-manual .bg-amber-950 {
     background-color: #fef3c7 !important;
     border-color: #f59e0b !important;
   }
 
   #printable-donation-receipt .bg-amber-500,
-  #printable-certificate .bg-amber-500 {
+  #printable-certificate .bg-amber-500,
+  #printable-user-manual .bg-amber-500 {
     background-color: #d97706 !important;
     color: #ffffff !important;
   }
 
   #printable-donation-receipt .text-emerald-400,
-  #printable-certificate .text-emerald-400 {
+  #printable-certificate .text-emerald-400,
+  #printable-user-manual .text-emerald-500,
+  #printable-user-manual .text-emerald-600 {
     color: #047857 !important;
   }
 
